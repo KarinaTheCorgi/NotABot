@@ -1,5 +1,2 @@
-activate venv
-- source nabenv/bin/activate
+when running, needs python 3.12 for discord.py module
 
-run bot:
-- python3.12 bot.py
