@@ -1,6 +1,10 @@
 """"
 File: bot.py
-Authors: Karina Solis, 
+Authors: 
+    - Asher Adighije
+    - Taylor Hobbs
+    - Kyle Miller
+    - Karina Solis
 
 Resources:
     - Setting Up Bot 
