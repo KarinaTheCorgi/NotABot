@@ -31,7 +31,7 @@ personality_prompt = ""
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    print(f'We have logged in as {bot.user}')
+    print(f'We have logged in as {bot.user} (updated)')
     
 
 # Commands, also might want to seperate into another file when this list gets bigger
