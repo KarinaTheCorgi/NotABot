@@ -1,1 +1,4 @@
 .env
+gitinfo.txt
+nabenv/
+.DS_Store
