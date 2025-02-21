@@ -31,7 +31,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 def git_pull():
-    if "Already up to date." in subprocess.run(["git", "pull"], capture_output=True, text=True):
+    if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
         return False
     else:
         return True
