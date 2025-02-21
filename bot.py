@@ -38,14 +38,14 @@ def git_pull():
     
 def restart():
     os.execv(sys.executable, ['python'] + sys.argv)
-    print("Restarted bot. Test")
     
 def update():
     while True:
         sleep(20)
         if git_pull():
             restart()
-            
+
+# Creates a new (background) thread to auto update from git          
 Thread(target=update, daemon=True).start()
 
 
