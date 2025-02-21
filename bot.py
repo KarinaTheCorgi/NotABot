@@ -38,7 +38,7 @@ def git_pull():
     
 def restart():
     os.execv(sys.executable, ['python'] + sys.argv)
-    print("Restarted bot.")
+    print("Restarted bot. Test")
     
 def update():
     while True:
