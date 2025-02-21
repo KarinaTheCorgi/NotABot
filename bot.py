@@ -41,7 +41,7 @@ def restart():
     
 def update():
     while True:
-        sleep(20)
+        sleep(10)
         if git_pull():
             restart()
 
