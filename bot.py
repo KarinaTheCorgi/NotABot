@@ -10,14 +10,44 @@ Resources:
     - Setting Up Bot 
         - https://guide.pycord.dev/
         - https://realpython.com/how-to-make-a-discord-bot-python/
+    
     - Commands
         - https://discordpy.readthedocs.io/en/stable/ext/commands/commands.html
+        
+    - Setting up automatic git pulling
+        - https://stackoverflow.com/questions/11329917/restart-python-script-from-within-itself/33334183#33334183
+        - https://www.geeksforgeeks.org/python-subprocess-module/
+        - https://www.geeksforgeeks.org/multithreading-python-set-1/
+        - https://realpython.com/intro-to-python-threading/#daemon-threads
 """
 
 import os
+import sys
+import subprocess
+from time import sleep
+from threading import Thread
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
+def git_pull():
+    if "Already up to date." in subprocess.run(["git", "pull"], capture_output=True, text=True):
+        return False
+    else:
+        return True
+    
+def restart():
+    os.execv(sys.executable, ['python'] + sys.argv)
+    print("Restarted bot.")
+    
+def update():
+    while True:
+        sleep(20)
+        if git_pull():
+            restart()
+            
+Thread(target=update, daemon=True).start()
+
 
 # Loading Token and Creating Bot Variables
 load_dotenv()
