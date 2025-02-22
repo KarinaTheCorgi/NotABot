@@ -119,7 +119,7 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
             await ctx.reply(f"{reply_time} seconds is unreasonable. I can wait around for {reply_time + 10} seconds.")
             reply_time = reply_time + 10
     
-    val = (str(ctx.author.id),)
+    val = (ctx.author.id,)
     cursor.execute("SELECT COUNT(*) FROM Users WHERE author_id = %s", val)
 
 
