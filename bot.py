@@ -57,20 +57,22 @@ load_dotenv()
 token = os.getenv('token')
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
-"""
+
 # Connect to a database
 db_host = os.getenv('db_host')
+db_port = os.getenv('db_port')
 db_user = os.getenv('db_user')
 db_pass = os.getenv('db_pass')
 
 db = mysql.connector.connect(
   host = db_host,
+  port = db_port,
   user = db_user,
   password = db_pass
 )
 
 print(db)
-"""
+
 
 # each user will need a different setting info, might want to create a class to hold custom info
 polling_int = 6000
