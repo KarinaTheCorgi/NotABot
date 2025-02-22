@@ -76,9 +76,6 @@ db = mysql.connector.connect(
   database = db_database_name
 )
 
-# each user will need a different setting info, might want to create a class to hold custom info
-polling_int = 6000
-personality_prompt = ""
 
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
@@ -89,6 +86,8 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send('Pong....')
+    print(ctx.message.author.id)
+    
     
 @bot.command()
 async def start(ctx):
@@ -97,6 +96,7 @@ async def start(ctx):
     creates Settings for specified user, maybe prints out the default values on calling this function
     """
     ...
+
     
 @bot.command()
 async def stop(ctx):
@@ -105,16 +105,12 @@ async def stop(ctx):
     destroys the 
     """
     ...
+
     
 @bot.command()
 async def changeTime(ctx, time:float):
     polling_int = time
     await ctx.send(f'Changed Polling time to: {time} secs')
     
-@bot.command()
-async def changePerson(ctx, personality:str):
-    personality_prompt = personality
-    await ctx.send(f'Updated the personality of NotABot to: {personality}')
-
 
 bot.run(token)
