@@ -76,6 +76,8 @@ db = mysql.connector.connect(
   database = db_database_name
 )
 
+cursor = db.cursor()
+
 
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
@@ -117,9 +119,14 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
             await ctx.reply(f"{reply_time} seconds is unreasonable. I can wait around for {reply_time + 10} seconds.")
             reply_time = reply_time + 10
     
-    db.cursor().execute("SELECT COUNT(*) FROM Users WHERE author_id = %s", (ctx.author.id,))
+    val = (str(ctx.author.id),)
+    cursor.execute("SELECT COUNT(*) FROM Users WHERE author_id = %s", val)
+
+
+    print(cursor.fetchone()[0])
     
-    if int(db.cursor().fetchone()[0]) > 0:
+    
+    if int(cursor.fetchone()[0]) > 0:
         sleep(3)
         await ctx.reply("You're already on my radar. Please stop before you start again.")   
     else:
