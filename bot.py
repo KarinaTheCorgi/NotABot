@@ -26,9 +26,12 @@ import sys
 import subprocess
 from time import sleep
 from threading import Thread
+
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
+import mysql.connector
 
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
@@ -53,6 +56,20 @@ Thread(target=update, daemon=True).start()
 load_dotenv()
 token = os.getenv('token')
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
+
+# Connect to a database
+db_host = os.getenv('db_host')
+db_user = os.getenv('db_user')
+db_pass = os.getenv('db_pass')
+
+db = mysql.connector.connect(
+  host = db_host,
+  user = db_user,
+  password = db_pass
+)
+
+print(db)
+
 
 # each user will need a different setting info, might want to create a class to hold custom info
 polling_int = 6000
