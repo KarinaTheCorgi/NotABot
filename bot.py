@@ -90,12 +90,37 @@ async def ping(ctx):
     
     
 @bot.command()
-async def start(ctx):
+async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
     # Starts polling loop, creates custom settings data
     """
-    creates Settings for specified user, maybe prints out the default values on calling this function
+    creates Settings for specified user
     """
-    ...
+    # prompt_time: time between each initial prompt given
+    if prompt_time < 30:
+        if prompt_time <= 0:
+            await ctx.reply(f"Nice try. I'll give you 30 seconds between each prompt. I need time to think.")
+            prompt_time = 30
+        else:
+            await ctx.reply(f"{prompt_time} seconds is unreasonable. Best I can get to you is {prompt_time + 30} seconds.")
+            prompt_time = prompt_time + 30
+    
+    # reply_time: how long the bot will give the user to respond
+    if reply_time < 5:
+        if reply_time <= 0:
+            await ctx.reply(f"Nice try. I'll give you 10 seconds for an answer. After that, I won't expect anything from you.")
+            reply_time = 10
+        else:
+            await ctx.reply(f"{reply_time} seconds is unreasonable. I can wait around for {reply_time + 10} seconds.")
+            reply_time = reply_time + 10
+    
+    sql = "INSERT INTO Users (author_id, prompt_time, reply_time) VALUES (%s, %s, %s)"
+    val = (str(ctx.author.id), str(prompt_time), str(reply_time))
+    db.cursor().execute(sql, val)
+    db.commit()
+    
+    await ctx.send(f"Oop you've just added your name to a list of people for me to bug. I'll try to annoy you every {prompt_time} seconds")
+    
+    
 
     
 @bot.command()
