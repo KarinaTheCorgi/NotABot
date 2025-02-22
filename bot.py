@@ -66,12 +66,14 @@ db_host = os.getenv('db_host')
 db_port = os.getenv('db_port')
 db_user = os.getenv('db_user')
 db_pass = os.getenv('db_pass')
+db_database_name = os.getenv('settings_db')
 
 db = mysql.connector.connect(
   host = db_host,
   port = db_port,
   user = db_user,
-  password = db_pass
+  password = db_pass,
+  database = db_database_name
 )
 
 # each user will need a different setting info, might want to create a class to hold custom info
@@ -81,8 +83,7 @@ personality_prompt = ""
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    print(f'We have logged in as {bot.user}')
-    
+    print(f'We have logged in as {bot.user}')    
 
 # Commands, also might want to seperate into another file when this list gets bigger
 @bot.command()
