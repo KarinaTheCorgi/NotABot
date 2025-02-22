@@ -118,7 +118,7 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
             reply_time = reply_time + 10
     
     check_sql = "SELECT COUNT(*) FROM Users WHERE author_id = %s"
-    val = (str(ctx.author.id))
+    val = (ctx.author.id)
     db.cursor().execute(check_sql, val)
     
     if db.cursor().fetchone()[0] > 0:
