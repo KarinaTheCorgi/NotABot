@@ -19,6 +19,9 @@ Resources:
         - https://www.geeksforgeeks.org/python-subprocess-module/
         - https://www.geeksforgeeks.org/multithreading-python-set-1/
         - https://realpython.com/intro-to-python-threading/#daemon-threads
+        
+    - Setting up a database
+        - https://www.w3schools.com/python/python_mysql_getstarted.asp
 """
 
 import os
@@ -70,9 +73,6 @@ db = mysql.connector.connect(
   user = db_user,
   password = db_pass
 )
-
-print(db)
-
 
 # each user will need a different setting info, might want to create a class to hold custom info
 polling_int = 6000
