@@ -98,27 +98,38 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
     # prompt_time: time between each initial prompt given
     if prompt_time < 30:
         if prompt_time <= 0:
+            sleep(3)
             await ctx.reply(f"Nice try. I'll give you 30 seconds between each prompt. I need time to think.")
             prompt_time = 30
         else:
-            await ctx.reply(f"{prompt_time} seconds is unreasonable. Best I can get to you is {prompt_time + 30} seconds.")
+            sleep(3)
+            await ctx.reply(f"{prompt_time} seconds is stupid. Best I can get to you is {prompt_time + 30} seconds.")
             prompt_time = prompt_time + 30
     
     # reply_time: how long the bot will give the user to respond
     if reply_time < 5:
         if reply_time <= 0:
-            await ctx.reply(f"Nice try. I'll give you 10 seconds for an answer. After that, I won't expect anything from you.")
+            sleep(3)
+            await ctx.reply(f"Ok smart guy. I'll give you 10 seconds for an answer. After that, I won't expect anything from you.")
             reply_time = 10
         else:
+            sleep(3)
             await ctx.reply(f"{reply_time} seconds is unreasonable. I can wait around for {reply_time + 10} seconds.")
             reply_time = reply_time + 10
     
-    sql = "INSERT INTO Users (author_id, prompt_time, reply_time) VALUES (%s, %s, %s)"
-    val = (str(ctx.author.id), str(prompt_time), str(reply_time))
-    db.cursor().execute(sql, val)
-    db.commit()
+    check_sql = "SELECT COUNT(*) FROM Users WHERE author_id = %s"
+    db.cursor().execute(check_sql, str(ctx.author.id))
     
-    await ctx.send(f"Oop you've just added your name to a list of people for me to bug. I'll try to annoy you every {prompt_time} seconds")
+    if db.cursor().fetchone()[0] > 0:
+        sleep(3)
+        await ctx.reply("You're already on my radar. Please stop before you start again.")   
+    else:
+        insert_sql = "INSERT INTO Users (author_id, prompt_time, reply_time) VALUES (%s, %s, %s)"
+        val = (str(ctx.author.id), str(prompt_time), str(reply_time))
+        db.cursor().execute(insert_sql, val)
+        db.commit()
+        sleep(3)
+        await ctx.send(f"Oop you've just added your name to a list of people for me to bug. I'll try to annoy you every {prompt_time} seconds")
     
     
 
