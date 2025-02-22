@@ -96,6 +96,8 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
     """
     creates Settings for specified user
     """
+    #it dont work imma cry
+    """
     # prompt_time: time between each initial prompt given
     if prompt_time < 30:
         if prompt_time <= 0:
@@ -120,7 +122,7 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
     
     val = (ctx.author.id,)
     db.cursor().execute("SELECT COUNT(*) FROM Users WHERE author_id = %s", val)
-    result = db.cursor().fetchone()
+    result = db.cursor().fetch()
     
     if result and int(result[0]) > 0:
         sleep(3)
@@ -130,9 +132,11 @@ async def start(ctx, prompt_time:int = 10800, reply_time:int = 5):
         val = (str(ctx.author.id), str(prompt_time), str(reply_time))
         db.cursor().execute(insert_sql, val)
         db.commit()
+        
         sleep(3)
         await ctx.send(f"Oop you've just added your name to a list of people for me to bug. I'll try to annoy you every {prompt_time} seconds")
-    
+    """
+    ...
     
 
     
