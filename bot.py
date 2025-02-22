@@ -67,7 +67,7 @@ async def on_ready():
 # Commands, also might want to seperate into another file when this list gets bigger
 @bot.command()
 async def ping(ctx):
-    await ctx.send('Pong!')
+    await ctx.send('Pong....')
     
 @bot.command()
 async def start(ctx):
