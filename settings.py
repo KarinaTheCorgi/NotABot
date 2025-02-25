@@ -61,7 +61,7 @@ class Settings(commands.Cog):
             ...
         
         
-class SettingsCmds():
+class SettingsCmds(commands.Cog):
     """
     the command cog for the bot to implement the setting changes
     """
