@@ -61,7 +61,7 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    await bot.get_cog('Settings')
+    bot.add_cog(settings.SettingsCmds(bot))
     print(f'We have logged in as {bot.user}')    
 
 # Test command
@@ -69,6 +69,4 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send('Pong....')
     
-# Adds SettingsCmds to the bot
-bot.add_cog(settings.SettingsCmds(bot))
 bot.run(token)
