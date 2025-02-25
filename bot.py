@@ -70,5 +70,5 @@ async def ping(ctx):
     await ctx.send('Pong....')
     
 # Adds SettingsCmds to the bot
-bot.Cog.add_cog(settings.SettingsCmds(bot))
+bot.add_cog(settings.SettingsCmds(bot))
 bot.run(token)
