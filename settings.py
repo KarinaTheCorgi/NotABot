@@ -8,12 +8,7 @@ Resources:
 """
 #i literally dk what im doing or if any of this makes sense. theres probably a much easier and simpler way to be doing this but im tired and scared
 import os
-import sys
-import subprocess
-from time import sleep
-from threading import Thread
 
-import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 

@@ -31,7 +31,6 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import mysql.connector
 import settings
 
 def git_pull():
@@ -56,7 +55,6 @@ Thread(target=update, daemon=True).start()
 load_dotenv()
 token = os.getenv('token')
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
-
 
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
