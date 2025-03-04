@@ -16,9 +16,6 @@ Resources:
         - https://www.geeksforgeeks.org/python-subprocess-module/
         - https://www.geeksforgeeks.org/multithreading-python-set-1/
         - https://realpython.com/intro-to-python-threading/#daemon-threads
-        
-    - Setting up a database
-        - https://www.w3schools.com/python/python_mysql_getstarted.asp
 """
 
 import os
