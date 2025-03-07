@@ -46,8 +46,7 @@ def update():
         sleep(10)
         if git_pull():
             restart()
-#hello there
-# hello again
+            
 # Creates a new (background) thread to auto update from git          
 Thread(target=update, daemon=True).start()
 
