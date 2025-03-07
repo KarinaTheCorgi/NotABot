@@ -30,6 +30,7 @@ from dotenv import load_dotenv
 
 import settings
 
+# this is me testing if I can edit the code
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
         return False
