@@ -28,6 +28,7 @@ from time import sleep
 from threading import Thread
 
 import discord
+import openai
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -47,7 +48,7 @@ def update():
         sleep(10)
         if git_pull():
             restart()
-
+#hello there
 # Creates a new (background) thread to auto update from git          
 Thread(target=update, daemon=True).start()
 
