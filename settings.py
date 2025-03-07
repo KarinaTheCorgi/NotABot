@@ -1,6 +1,7 @@
 import os
 import mysql.connector as sql
 from dotenv import load_dotenv
+from discord.ext import commands
 
 
 # why did i think it was a good idea to do this. i dont know what im doing. i dont know what decorators are.
@@ -40,7 +41,7 @@ def validateArgs(func):
         return func(self, **kwargs)
     return wrapper
     
-class Settings():
+class Settings(commands.Cog):
     def __init__(self, user):
         # Connect to the database
         load_dotenv()
@@ -105,7 +106,6 @@ class Settings():
     @validateArgs       
     def addTopics(self, topics:list[str])->None:
         # adds an entry in the UserTopics (user_id, topic_id)
-        # NOT WORKING IDK WHY BC IT SAYS ITS WORKING BUT ITS LYING TO ME
         # read topics as kwargs and handle in validateArgs deco
         cursor = self.db.cursor()
         for topic in topics:
@@ -114,13 +114,45 @@ class Settings():
     
     @validateArgs
     def addUser(self, **kwargs)->None:
+        # idk what im doing wrong but its saying that it works sometimes but then doesnt add a user. so like then what is it doing...
         cursor = self.db.cursor()
         cursor.execute(f"INSERT INTO Users (user_id, prompt_time, reply_time) VALUES ({self.user}, {self.prompt_time}, {self.reply_time})")
         cursor.close()
 
-settings = Settings("762170712818581505")
-print(settings.isInDB())  
-print(settings) 
-print(settings.addUser(prompt_time = 10800, reply_time = 30))
-print(settings)
-print(settings.isInDB())
+class SettingsCmds(commands.Cog):
+    """
+    the command cog for the bot to implement the setting changes
+    """
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def test(self, ctx):
+        await ctx.send('Hello. Cmds were loaded.')
+
+    @commands.command()
+    async def start(self, ctx, *args):
+        # Starts polling loop, creates custom settings data
+        """
+        creates Settings for specified user if there isnt one
+        """
+        settings = self.bot.get_cog('Settings')
+        if settings is not None:
+            if settings.isInDB(ctx.author.id):
+                await ctx.send("You're already in the database.")
+            else:
+                await settings.validateArgs(*args)
+                await settings.addUser(ctx.author.id, *args)
+
+    @commands.command()
+    async def stop(self, ctx):
+        # exits polling loop
+        """
+        destroys the entry in db from specified user if there is one
+        """
+        settings = self.bot.get_cog('Settings')
+        if settings is not None:
+            if settings.isInDB(ctx.author.id):
+                await settings.remove_user(ctx.author.id)
+            else:
+                await ctx.send("You're not in the database.")
