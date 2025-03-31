@@ -127,7 +127,7 @@ class SettingsCmds(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(description="testting slash commands")
+    @commands.slash_command(description="testting slash commands")
     async def test(self, ctx):
         await ctx.send('Hello. Cmds were loaded.')
 
