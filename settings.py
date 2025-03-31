@@ -5,6 +5,7 @@ from discord.ext import commands
 
 
 # why did i think it was a good idea to do this. i dont know what im doing. i dont know what decorators are.
+# i think im gonna get rid of this and make it 
 def validateArgs(func):
     def wrapper(self, **kwargs):
         prompt_time = 0
@@ -126,7 +127,7 @@ class SettingsCmds(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(description="testting slash commands")
     async def test(self, ctx):
         await ctx.send('Hello. Cmds were loaded.')
 
