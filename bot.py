@@ -8,9 +8,6 @@ Resources:
         - https://guide.pycord.dev/
         - https://realpython.com/how-to-make-a-discord-bot-python/
     
-    - Commands
-        - https://discordpy.readthedocs.io/en/stable/ext/commands/commands.html
-        
     - Setting up automatic git pulling
         - https://stackoverflow.com/questions/11329917/restart-python-script-from-within-itself/33334183#33334183
         - https://www.geeksforgeeks.org/python-subprocess-module/
@@ -25,13 +22,13 @@ from time import sleep
 from threading import Thread
 
 import discord
-import openai
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import settings
+import cogs.command_handling.commands as cmds
+import cogs.events as events
+import cogs.prompts as prompts
 
-# this is me testing if I can edit the code
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
         return False
@@ -58,7 +55,10 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    bot.add_cog(settings.SettingsCmds(bot))
+    await bot.add_cog(cmds.Commands(bot))
+    await bot.add_cog(events.EventsListener(bot))
+    await bot.add_cog(prompts.Prompts(bot))
+    
     print(f'We have logged in as {bot.user}')    
 
 # Test command
