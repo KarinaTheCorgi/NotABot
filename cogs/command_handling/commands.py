@@ -6,13 +6,16 @@ Authors:
 Resources:
     - Commands
         - https://discordpy.readthedocs.io/en/stable/ext/commands/commands.html
+    
+    - Hybrid Commands
+        - https://discordpy.readthedocs.io/en/latest/ext/commands/api.html#discord.ext.commands.hybrid_command
 """
 
 import discord
 from discord.ext import commands
 import cogs.command_handling.settings_db as settings_db
 
-loop = discord.SlashCommandGroup("loop", "Loop related commands")
+loop = commands.HybridGroup("loop", "Loop related commands")
 
 class Commands(commands.Cog):
     """
@@ -21,7 +24,7 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.hybrid_command(description="testing commands")
+    @commands.hybrid_command(description="Test Description")
     async def test(self, ctx):
         await ctx.send('Hello. Cmds were loaded.')
 
