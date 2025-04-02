@@ -26,5 +26,5 @@ class Commands(commands.Cog):
         await ctx.send('Hello. Cmds were loaded.')
 
     @loop.command(description="Start the loop with either the pre-established or custom configurations")
-    async def start():
-        ...
+    async def start(self, ctx):
+        pass
