@@ -21,7 +21,7 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(description="testting slash commands")
+    @discord.hybrid_command(description="testing commands")
     async def test(self, ctx):
         await ctx.send('Hello. Cmds were loaded.')
 

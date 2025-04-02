@@ -58,7 +58,7 @@ async def on_ready():
     bot.add_cog(cmds.Commands(bot))
     bot.add_cog(events.EventsListener(bot))
     bot.add_cog(prompts.Prompts(bot))
-    
+    await bot.tree.sync()
     print(f'We have logged in as {bot.user}')    
 
 # Test command
