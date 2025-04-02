@@ -21,7 +21,7 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.bot.hybrid_command(description="testing commands")
+    @commands.hybrid_command(description="testing commands")
     async def test(self, ctx):
         await ctx.send('Hello. Cmds were loaded.')
 
