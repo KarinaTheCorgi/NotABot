@@ -48,11 +48,11 @@ class Commands(commands.Cog):
     async def time(self, ctx: commands.Context, time: int):
         await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
         
-    async def topics_autocomplete(current: str,):
+    async def topics_autocomplete():
         topics = ["relationships", "lifestyle", "career"]
         return [
             app_commands.Choice(name=topic, value=topic)
-            for topic in topics if current.lower() in topic.lower()
+            for topic in topics 
         ]
 
     @update.command(description="Updates the topics you will be prompted.")
