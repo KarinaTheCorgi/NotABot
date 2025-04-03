@@ -64,10 +64,5 @@ async def on_ready():
         print(f"Synced {len(synced)} commands.")
     except Exception as e:
         print(e)  
-
-# Test command
-@bot.hybrid_command()
-async def ping(ctx: commands.Context):
-    await ctx.send('Pong....')
     
 bot.run(token)
