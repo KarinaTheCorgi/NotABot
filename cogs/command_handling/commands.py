@@ -28,7 +28,7 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.hybrid_command(name = "test", description = "Test Description")
+    @commands.hybrid_command(name = "ping", description = "Test Description")
     async def ping(self, ctx: commands.Context):
         await ctx.send('Pong....')
     
@@ -44,9 +44,9 @@ class Commands(commands.Cog):
     async def update(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @update.command()
-    async def prompt_time(self, ctx, *args):
-        await ctx.send()
+    @update.command(description="Updates the time between last reply and new prompt.")
+    async def time(self, ctx: commands.Context, time: int):
+        await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
         
     async def topics_autocomplete(current: str,):
         topics = ["relationships", "lifestyle", "career"]
@@ -55,7 +55,7 @@ class Commands(commands.Cog):
             for topic in topics if current.lower() in topic.lower()
         ]
 
-    @update.command()
+    @update.command(description="Updates the topics you will be prompted.")
     @app_commands.autocomplete(topic=topics_autocomplete)
     async def topics(self, ctx: commands.Context, topic: str):
         await ctx.send(f'You added: {topic} to your list of topics')
