@@ -25,6 +25,7 @@ class Commands(commands.Cog):
 
     @commands.hybrid_command(name = "test", description = "Test Description", with_app_command = True)
     async def test(self, ctx: commands.Context):
+        await ctx.defer()
         await ctx.send('Hello. Cmds were loaded.')
         
     @commands.hybrid_group()
