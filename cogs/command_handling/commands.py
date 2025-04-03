@@ -47,15 +47,18 @@ class Commands(commands.Cog):
     @update.command(description="Updates the time between last reply and new prompt.")
     async def time(self, ctx: commands.Context, time: int):
         await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
-        
-    async def topics_autocomplete():
-        topics = ["relationships", "lifestyle", "career"]
-        return [
-            app_commands.Choice(name=topic, value=topic)
-            for topic in topics 
-        ]
-
+    
     @update.command(description="Updates the topics you will be prompted.")
-    @app_commands.autocomplete(topic=topics_autocomplete)
     async def topics(self, ctx: commands.Context, topic: str):
         await ctx.send(f'You added: {topic} to your list of topics')
+    
+    @topics.autocomplete("topic")    
+    async def topics_autocomplete(ctx: commands.Context, current: str):
+        topics = ["relationships", "lifestyle", "career"]
+        choices = []
+        for topic_choice in topics:
+            if current.lower() in topic_choice.lower():
+                choices.append.app_commands.Choice(name=topic_choice, value=topic_choice)
+        return choices
+
+    
