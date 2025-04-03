@@ -66,7 +66,7 @@ async def on_ready():
         print(e)  
 
 # Test command
-@bot.command()
+@bot.hybrid_command()
 async def ping(ctx: commands.Context):
     await ctx.send('Pong....')
     
