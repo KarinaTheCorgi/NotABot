@@ -58,8 +58,12 @@ async def on_ready():
     await bot.add_cog(cmds.Commands(bot))
     await bot.add_cog(events.EventsListener(bot))
     await bot.add_cog(prompts.Prompts(bot))
-    await bot.tree.sync()
-    print(f'We have logged in as {bot.user}')    
+    print(f'{bot.user} has connected to Discord! Version {discord.__version__}')
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} commands.")
+    except Exception as e:
+        print(e)  
 
 # Test command
 @bot.command()
