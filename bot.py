@@ -64,10 +64,6 @@ async def on_ready():
         print(f"Synced {len(synced)} commands.")
     except Exception as e:
         print(e)  
-        
-@bot.event
-async def on_ready():
-    ...
 
 # Test command
 @bot.command()
