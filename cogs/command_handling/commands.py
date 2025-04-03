@@ -23,9 +23,8 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.hybrid_command(name = "test", description = "Test Description", with_app_command = True)
+    @commands.hybrid_command(name = "test", description = "Test Description")
     async def test(self, ctx: commands.Context):
-        await ctx.defer()
         await ctx.send('Hello. Cmds were loaded.')
         
     @commands.hybrid_group()
@@ -34,8 +33,8 @@ class Commands(commands.Cog):
 
     @loop.command(description="Start the loop with either the pre-established or custom configurations")
     async def start(self, ctx):
-        pass
+        await ctx.send(f"Doing stuff to start bot...")
     
-    @loop.command(description="End the loop")
+    @loop.command(description="Stops the loop")
     async def stop(self, ctx):
-        pass
+        await ctx.send(f"Doing stuff to stop bot...")
