@@ -67,7 +67,7 @@ async def on_ready():
 
 # Test command
 @bot.command()
-async def ping(ctx):
+async def ping(ctx: commands.Context):
     await ctx.send('Pong....')
     
 bot.run(token)

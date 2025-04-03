@@ -23,12 +23,12 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.hybrid_command(description="Test Description")
-    async def test(self, ctx):
+    @commands.hybrid_command(name = "test", description = "Test Description", with_app_command = True)
+    async def test(self, ctx: commands.Context):
         await ctx.send('Hello. Cmds were loaded.')
         
     @commands.hybrid_group()
-    async def loop(ctx, name):
+    async def loop(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
 
     @loop.command(description="Start the loop with either the pre-established or custom configurations")
