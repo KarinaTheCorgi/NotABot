@@ -16,10 +16,17 @@ Resources:
 """
 
 import discord
+from enum import Enum
 from discord.ext import commands
 from discord import app_commands
 
 import cogs.command_handling.settings_db as settings_db
+
+class Topic(Enum):
+    relationships = 1
+    lifestyle = 2
+    career = 3
+    
 
 class Commands(commands.Cog):
     """
@@ -49,16 +56,5 @@ class Commands(commands.Cog):
         await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
     
     @update.command(description="Updates the topics you will be prompted.")
-    async def topics(self, ctx: commands.Context, topic: str):
+    async def topics(self, ctx: commands.Context, topic: Topic):
         await ctx.send(f'You added: {topic} to your list of topics')
-    
-    @topics.autocomplete("topic")    
-    async def topics_autocomplete(ctx: commands.Context, current: str):
-        topics = ["relationships", "lifestyle", "career"]
-        choices = []
-        for topic_choice in topics:
-            if current.lower() in topic_choice.lower():
-                choices.append.app_commands.Choice(name=topic_choice, value=topic_choice)
-        return choices
-
-    
