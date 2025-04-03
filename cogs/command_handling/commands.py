@@ -48,7 +48,7 @@ class Commands(commands.Cog):
     async def prompt_time(self, ctx, *args):
         await ctx.send()
         
-    async def topics_autocomplete(interaction: discord.Interaction, current: str,):
+    async def topics_autocomplete(current: str,):
         topics = ["relationships", "lifestyle", "career"]
         return [
             app_commands.Choice(name=topic, value=topic)
@@ -57,5 +57,5 @@ class Commands(commands.Cog):
 
     @update.command()
     @app_commands.autocomplete(topic=topics_autocomplete)
-    async def topics(interaction: discord.Interaction, topic: str):
-        await interaction.response.send_message(f'You added: {topic} to your list of topics')
+    async def topics(self, ctx: commands.Context, topic: str):
+        await ctx.send(f'You added: {topic} to your list of topics')
