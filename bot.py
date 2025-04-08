@@ -46,7 +46,7 @@ def update():
         sleep(10)
         if git_pull():
             restart()
-            
+
 # Creates a new (background) thread to auto update from git          
 Thread(target=update, daemon=True).start()
 
@@ -65,5 +65,9 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send('Pong....')
+
+@bot.command()
+async def help(ctx):
+    await ctx.send('')
     
 bot.run(token)
