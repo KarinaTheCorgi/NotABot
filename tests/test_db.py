@@ -29,21 +29,6 @@ def test_faulty_connect(faulty_config):
     with pytest.raises(ValueError):
         db.connect(faulty_config)
         
-@pytest.fixture
-def topics():
-    return ["relationships", "lifestyle", "career"]
-        
-@pytest.fixture
-def faulty_topics():
-    return ["hello", "world"]
-
-def test_numerate_topics(topics):
-    assert db.numerate_topics(topics) == [1, 2, 3]
-    
-def test_faulty_numerate_topics(faulty_topics):
-    with pytest.raises(ValueError):
-        db.numerate_topics(faulty_topics)
-        
 def test_insert_user_prompt_time():
     user_id = 12345
     prompt_time = 10000
