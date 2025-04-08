@@ -1,6 +1,3 @@
-Confirmed: pip 25.0.1
+## Not-A-Bot 
 
-Dependencies:
-  - pip install py-cord
-  - pip install python-dotenv
-  - pip install mysql-connector-python
+The discord bot that treats you like a bot.

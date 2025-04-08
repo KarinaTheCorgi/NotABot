@@ -8,9 +8,6 @@ Resources:
         - https://guide.pycord.dev/
         - https://realpython.com/how-to-make-a-discord-bot-python/
     
-    - Commands
-        - https://discordpy.readthedocs.io/en/stable/ext/commands/commands.html
-        
     - Setting up automatic git pulling
         - https://stackoverflow.com/questions/11329917/restart-python-script-from-within-itself/33334183#33334183
         - https://www.geeksforgeeks.org/python-subprocess-module/
@@ -25,13 +22,13 @@ from time import sleep
 from threading import Thread
 
 import discord
-import openai
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import settings
+import cogs.command_handling.commands as cmds
+import cogs.events as events
+import cogs.prompts as prompts
 
-# this is me testing if I can edit the code
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
         return False
@@ -65,9 +62,5 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send('Pong....')
-
-@bot.command()
-async def help(ctx):
-    await ctx.send('')
     
 bot.run(token)
