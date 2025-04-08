@@ -79,5 +79,6 @@ def add_topics(user_id:int, topics:list[int] = [1, 2, 3]):
         query(topics_query, (user_id, topic))
         
 @exception_handler
-def get_settings(user_id:int)->tuple(int, list[int]):
+def get_settings(user_id:int):
     get_prompt_query = ("SELECT * From Users WHERE user_id = %s")
+    pass
