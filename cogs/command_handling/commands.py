@@ -86,7 +86,7 @@ class Commands(commands.Cog):
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
     
     @add.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, topics: list[Topic]):
+    async def topic(self, ctx: commands.Context, *topics: Topic):
         if db.is_in_db(ctx.author):
             topics_int = []
             topics_str = ""
@@ -99,7 +99,7 @@ class Commands(commands.Cog):
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
     @remove.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, topics: list[Topic]):
+    async def topic(self, ctx: commands.Context, *topics: Topic):
         if topics != None:
             db.remove_topics(topics)
             updated_topics = db.get_topics(ctx.author)
