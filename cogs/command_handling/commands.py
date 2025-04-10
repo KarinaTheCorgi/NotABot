@@ -27,6 +27,13 @@ class Topic(Enum):
     lifestyle = 2
     career = 3
     
+class TopicConverter(commands.Converter):
+    async def convert(self, ctx, arg: str):
+        try:
+            return Topic[arg.upper()]
+        except KeyError:
+            raise commands.BadArgument(f"Invalid topic: {arg}. Please choose from the available topics.")
+    
 class Commands(commands.Cog):
     """
     the command cog for the bot to implement the setting changes
