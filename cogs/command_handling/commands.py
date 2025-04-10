@@ -41,7 +41,9 @@ class Commands(commands.Cog):
         await ctx.send('Pong....')
     
     @commands.hybrid_command(description="Start the loop with either the pre-established or custom configurations")
-    async def start(self, ctx: commands.Context, propmt_time:int=10800, *topics:Topic=[1,2,3]):
+    async def start(self, ctx: commands.Context, propmt_time:int=10800, *topics:Topic):
+        if topics == None:
+            topics = [1, 2, 3]
         if db.is_in_db(ctx.author):
             await ctx.send("You are already on my list, silly goose.")
         else:
