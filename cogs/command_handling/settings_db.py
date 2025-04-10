@@ -7,7 +7,14 @@ Resources:
     - Connecting to DB:
         - https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
         
+    - Using deco as error handling:
+        - https://medium.com/swlh/handling-exceptions-in-python-a-cleaner-way-using-decorators-fae22aa0abec
+        
+    - Inserting Data into DB:
+        - https://dev.mysql.com/doc/connector-python/en/connector-python-example-cursor-transaction.html
+        
 """
+
 import os
 from dotenv import load_dotenv
 import mysql.connector
@@ -20,89 +27,58 @@ valid_config = {"host" : os.getenv('db_host'),
                 "password" : os.getenv('db_pass'),
                 "database" : os.getenv('settings_db')}
 
+def exception_handler(func:callable):
+    def inner_function(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except mysql.connector.Error as err:
+            raise ValueError(f"{func.__name__} could not be completed. {err}")
+    return inner_function
+
+@exception_handler
 def connect(config):
-    try:
-        cnx = mysql.connector.connect(**config)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            raise ValueError("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            raise ValueError("Database does not exist")
-        else:
-            raise ValueError(err)
-    return cnx
+    return mysql.connector.connect(**config)
 
-def isInDB(user_id:int)->bool:
-    try:
-        query = ("SELECT COUNT(*) FROM Users WHERE user_id = %s")
-        cnx = connect(valid_config)
-        cursor = cnx.cursor()
-        cursor.execute(query, (user_id))
-        result = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if result and result[0] > 0:
-            return True  
-        return False
-    except mysql.connector.Error as err:
-        raise ValueError(f"Something went wrong {err}")
+@exception_handler
+def query(query: str, items):
+    cnx = connect(valid_config)
+    cursor = cnx.cursor()
+    cursor.execute(query, items)
+    result = cursor.fetchone()
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return result
 
-def insert_user(user_id:int, prompt_time:int = 10800):
-    try:
-        if (not isInDB(user_id)):
-            users_query = ("insert into Users (user_id, prompt_time) values (%s, %s)")
-            cnx = connect(valid_config)
-            cursor = cnx.cursor()
-            cursor.execute(users_query, (user_id, prompt_time))
-            cursor.close()
-            cnx.close()
-        elif (isInDB(user_id)):
-            users_query = ("insert into Users (user_id, prompt_time) values (%s, %s)")
-            cnx = connect(valid_config)
-            cursor = cnx.cursor()
-            cursor.execute(users_query, (user_id, prompt_time))
-            cursor.close()
-            cnx.close()
-    except mysql.connector.Error as err:
-        raise ValueError(f"Something went wrong {err}")
+@exception_handler
+def is_in_db(user_id:int)->bool:
+    query_str = ("SELECT COUNT(*) FROM Users WHERE user_id = %s")
+    result = query(query_str, (user_id,))
+    if result and result[0] > 0:
+        return True  
+    return False
+
+@exception_handler
+def set_prompt_time(user_id:int, prompt_time:int = 10800):
+    if (not is_in_db(user_id)):
+        users_query = ("INSERT INTO Users (prompt_time, user_id) VALUES (%s, %s)")
+        print("user inserted into Users db")
+    else:
+        users_query = ("UPDATE Users SET prompt_time = %s WHERE user_id = %s")
+        print("user updated")
+    query(users_query, (prompt_time, user_id))
+
+@exception_handler
+def add_topics(user_id:int, topics:list[int] = [1, 2, 3]):
+    if (not is_in_db(user_id)):
+        set_prompt_time(user_id)
+
+    topics_query = ("INSERT INTO UserTopics (user_id, topic_id) VALUES (%s, %s)")
     
-def numerate_topics(topics:list[str])->list[int]:
-    numbered_topics = []
     for topic in topics:
-        if topic.lower() == "relationships":
-            if 1 not in numbered_topics:
-                numbered_topics.append(1)
-        elif topic.lower() == "lifestyle":
-            if 2 not in numbered_topics:
-                numbered_topics.append(2)
-        elif topic.lower() == "career":
-            if 3 not in numbered_topics:
-                numbered_topics.append(3)
-        else:
-            raise ValueError("Unclassified Topic")
-    return numbered_topics    
-
-def insert_user_topics(user_id:int, topics:list[int] = [1, 2, 3]):
-    try:
-        # have to make sure that a user with the user_id is in the table first or else you get err 1452
-        if isInDB:
-            topics_query = ("insert into UserTopics (user_id, topic_id) values (%s, %s)")
-            cnx = connect(valid_config)
-            cursor = cnx.cursor()
-            for topic in topics:
-                cursor.execute(topics_query, (user_id, topic))
-            cursor.close()
-            cnx.close()
-        else:
-            insert_user(user_id)
-            # i  know this code is repetitive but idc
-            topics_query = ("insert into UserTopics (user_id, topic_id) values (%s, %s)")
-            cnx = connect(valid_config)
-            cursor = cnx.cursor()
-            for topic in topics:
-                cursor.execute(topics_query, (user_id, topic))
-            cursor.close()
-            cnx.close()
-            
-    except mysql.connector.Error as err:
-        raise ValueError(f"Something went wrong {err}")
+        query(topics_query, (user_id, topic))
+        
+@exception_handler
+def get_settings(user_id:int):
+    get_prompt_query = ("SELECT * From Users WHERE user_id = %s")
+    pass
