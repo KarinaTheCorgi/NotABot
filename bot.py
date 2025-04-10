@@ -43,7 +43,7 @@ def update():
         sleep(10)
         if git_pull():
             restart()
-            
+
 # Creates a new (background) thread to auto update from git          
 Thread(target=update, daemon=True).start()
 
@@ -55,14 +55,12 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    await bot.add_cog(cmds.Commands(bot))
-    await bot.add_cog(events.EventsListener(bot))
-    await bot.add_cog(prompts.Prompts(bot))
-    print(f'{bot.user} has connected to Discord! Version {discord.__version__}')
-    try:
-        synced = await bot.tree.sync()
-        print(f"Synced {len(synced)} commands.")
-    except Exception as e:
-        print(e)  
+    bot.add_cog(settings.SettingsCmds(bot))
+    print(f'We have logged in as {bot.user}')    
+
+# Test command
+@bot.command()
+async def ping(ctx):
+    await ctx.send('Pong....')
     
 bot.run(token)
