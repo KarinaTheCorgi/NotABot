@@ -27,12 +27,9 @@ class Topic(Enum):
     lifestyle = 2
     career = 3
     
-class TopicConverter(commands.Converter):
-    async def convert(self, ctx, arg: str):
-        try:
-            return Topic[arg.upper()]
-        except KeyError:
-            raise commands.BadArgument(f"Invalid topic: {arg}. Please choose from the available topics.")
+class TopicConverter(commands.converter):
+    def convert(self, arg):
+        return Topic[arg]
     
 class Commands(commands.Cog):
     """
@@ -48,7 +45,7 @@ class Commands(commands.Cog):
         await ctx.send('Pong....')
     
     @commands.hybrid_command(description="Start the loop with either the pre-established or custom configurations")
-    async def start(self, ctx: commands.Context, propmt_time:int=10800, *topics:Topic):
+    async def start(self, ctx: commands.Context, propmt_time:int=10800, *topics:TopicConverter):
         if topics == None:
             topics = [1, 2, 3]
         if db.is_in_db(ctx.author):
@@ -95,7 +92,7 @@ class Commands(commands.Cog):
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
     
     @add.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, *topics: Topic):
+    async def topic(self, ctx: commands.Context, *topics: TopicConverter):
         if db.is_in_db(ctx.author):
             topics_int = []
             topics_str = ""
@@ -108,7 +105,7 @@ class Commands(commands.Cog):
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
     @remove.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, *topics: Topic):
+    async def topic(self, ctx: commands.Context, *topics: TopicConverter):
         if topics != None:
             db.remove_topics(topics)
             updated_topics = db.get_topics(ctx.author)
