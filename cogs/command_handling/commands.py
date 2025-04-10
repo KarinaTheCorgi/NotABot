@@ -28,7 +28,7 @@ class Topic(Enum):
     career = 3
     
 class TopicConverter(commands.converter):
-    def convert(self, arg):
+    def convert(self, ctx, arg):
         return Topic[arg]
     
 class Commands(commands.Cog):
