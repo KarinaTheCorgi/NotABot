@@ -27,10 +27,6 @@ class Topic(Enum):
     lifestyle = 2
     career = 3
     
-class TopicConverter(commands.converter):
-    def convert(self, ctx, arg):
-        return Topic[arg]
-    
 class Commands(commands.Cog):
     """
     the command cog for the bot to implement the setting changes
@@ -45,9 +41,10 @@ class Commands(commands.Cog):
         await ctx.send('Pong....')
     
     @commands.hybrid_command(description="Start the loop with either the pre-established or custom configurations")
-    async def start(self, ctx: commands.Context, propmt_time:int=10800, *topics:TopicConverter):
-        if topics == None:
-            topics = [1, 2, 3]
+    async def start(self, ctx: commands.Context, propmt_time:int=10800, topic1:Topic=None, topic2:Topic=None, topic3:Topic=None):
+        topics = [topic1, topic2, topic3]
+        if topics == [None, None, None]:
+            topics = [1,2,3]
         if db.is_in_db(ctx.author):
             await ctx.send("You are already on my list, silly goose.")
         else:
@@ -92,21 +89,25 @@ class Commands(commands.Cog):
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
     
     @add.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, *topics: TopicConverter):
+    async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
+        topics_to_add = [topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None]
+        topics_int = []
         if db.is_in_db(ctx.author):
-            topics_int = []
             topics_str = ""
-            for topic in topics:
-                topics_int.append(topic.value)
-                topics_str += (f"\n- {topic.name}")
+            for topic in topics_to_add:
+                if topic.value not in topics_int: 
+                    topics_int.append(topic.value)
+                    topics_str += (f"\n- {topic.name}")
             db.set_topics(topics_int)
             await ctx.send(f'You updated your topics to: ' + topics_str)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
     @remove.command(description="Updates the topics you will be prompted.")
-    async def topic(self, ctx: commands.Context, *topics: TopicConverter):
+    async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
+        topics = [topic1, topic2, topic3]
         if topics != None:
+            # make sure that the topic is already associated w the user
             db.remove_topics(topics)
             updated_topics = db.get_topics(ctx.author)
             topic_str = ""
