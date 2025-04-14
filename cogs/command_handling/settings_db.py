@@ -127,3 +127,9 @@ def delete_user(user_id:int):
         query(delete_prompt_time_query, (user_id,))
     else:
         return None
+    
+@exception_handler
+def get_all_users():
+    query_str = "SELECT user_id FROM Users"
+    results = query(query_str, ())
+    return [user[0] for user in results]
