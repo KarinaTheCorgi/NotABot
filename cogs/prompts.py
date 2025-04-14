@@ -10,11 +10,11 @@ Resources:
 import openai
 
 # this will handle the initial prompts (triggered by no reply in [prompt_time] secs)
-from discord.ext import commands
+from discord.ext import tasks, commands
 
 from cogs.command_handling import settings_db as db
+from cogs.command_handling import Topic
 
-from discord.ext import tasks, commands
 import random
 
 class Prompts(commands.Cog):
