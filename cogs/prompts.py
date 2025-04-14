@@ -13,7 +13,7 @@ import openai
 from discord.ext import tasks, commands
 
 from cogs.command_handling import settings_db as db
-from cogs.command_handling import Topic
+from cogs.command_handling.commands import Topic
 
 import random
 from reddit.generator import get_reddit_style_response
