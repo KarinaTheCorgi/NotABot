@@ -25,8 +25,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import cogs.command_handling.commands as cmds
-import cogs.prompts as prompts
+from cogs.command_handling.commands import Commands
+from cogs.prompts import Prompts
 
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
@@ -54,8 +54,8 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    bot.add_cog(cmds(bot))
-    bot.add_cog(prompts(bot))
+    bot.add_cog(Commands(bot))
+    bot.add_cog(Prompts(bot))
     print(f'We have logged in as {bot.user}')    
 
 # Test command
