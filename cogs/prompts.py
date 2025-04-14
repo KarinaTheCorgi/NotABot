@@ -16,6 +16,8 @@ from cogs.command_handling import settings_db as db
 
 from discord.ext import tasks, commands
 import random
+from reddit.generator import get_reddit_style_response
+
 
 class Prompts(commands.Cog):
     def __init__(self, bot):
