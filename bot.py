@@ -26,7 +26,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 import cogs.command_handling.commands as cmds
-import cogs.events as events
 import cogs.prompts as prompts
 
 def git_pull():
