@@ -54,7 +54,8 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 # Event Listeners, might want to seperate into another file when this list gets bigger
 @bot.event
 async def on_ready():
-    bot.add_cog(settings.SettingsCmds(bot))
+    bot.add_cog(cmds(bot))
+    bot.add_cog(prompts(bot))
     print(f'We have logged in as {bot.user}')    
 
 # Test command
