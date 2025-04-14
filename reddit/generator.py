@@ -19,6 +19,8 @@ def get_reddit_style_response(topic: str) -> str:
             "Cold showers are life. Try it once and you'll either hate me or thank me."
         ]
     }
+    
+    
 
     default_response = "That's an interesting topic! Here's a quirky take on it: stay curious."
     return random.choice(responses.get(topic.lower(), [default_response]))

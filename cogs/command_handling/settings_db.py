@@ -125,8 +125,9 @@ def delete_user(user_id:int):
         delete_prompt_time_query = ("DELETE FROM Users WHERE user_id = %s")
         query(delete_topics_query, (user_id,))
         query(delete_prompt_time_query, (user_id,))
+        return True
     else:
-        return None
+        return False
     
 @exception_handler
 def get_all_users():
