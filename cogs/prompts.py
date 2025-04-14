@@ -2,7 +2,8 @@
 File: cogs.commands.py
 Authors: 
     - Karina Solis
-
+    - Asher Adighije
+     
 Resources:
    - https://discordpy.readthedocs.io/en/stable/ext/tasks/index.html
 """
@@ -35,7 +36,7 @@ class Prompts(commands.Cog):
             # Implement logic to check last interaction timestamp if needed
             # Assuming time has passed:
             topic = random.choice(topics)
-            topic_name = Topic(topic).name # topic is not impemented
+            topic_name = Topic(topic).name
 
             response = await get_reddit_style_response(topic_name) # this function is not implemented yet
             user = await self.bot.fetch_user(user_id)

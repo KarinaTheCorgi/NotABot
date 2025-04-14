@@ -49,7 +49,7 @@ class Commands(commands.Cog):
             await ctx.send("You are already on my list, silly goose.")
         else:
             db.set_prompt_time(ctx.author, propmt_time)
-            db.add_topics(topics)
+            db.add_topics(ctx.author, topics)
             await ctx.send("You just made the list.")
     
     @commands.hybrid_command(description="Stops the loop")
@@ -78,12 +78,12 @@ class Commands(commands.Cog):
     async def show(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    # Grouped Commands
+    # Update Settings
         
     @update.command(description="Updates the time between last reply and new prompt.")
     async def time(self, ctx: commands.Context, time: int=10800):
         if db.is_in_db(ctx.author):
-            db.set_prompt_time(time)
+            db.set_prompt_time(ctx.author, time)
             await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
@@ -96,9 +96,10 @@ class Commands(commands.Cog):
             topics_str = ""
             for topic in topics_to_add:
                 if topic.value not in topics_int: 
+                    # make sure not already there (or do nothing if it is already there)
                     topics_int.append(topic.value)
                     topics_str += (f"\n- {topic.name}")
-            db.set_topics(topics_int)
+                    db.set_topics(ctx.author, topics_int)
             await ctx.send(f'You updated your topics to: ' + topics_str)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
@@ -108,13 +109,15 @@ class Commands(commands.Cog):
         topics = [topic1, topic2, topic3]
         if topics != None:
             # make sure that the topic is already associated w the user
-            db.remove_topics(topics)
+            db.remove_topics(ctx.author, topics)
             updated_topics = db.get_topics(ctx.author)
             topic_str = ""
             for topic in updated_topics:
                 topic_str += (f"\n- {topic.name}")
         else:
             await ctx.send(f'You added: {topic} to your list of topics')
+        
+    # Show Settings
         
     @show.command(description="Displays the chosen time between no reply and a new prompt.")
     async def time(self, ctx: commands.Context):
@@ -125,9 +128,11 @@ class Commands(commands.Cog):
     async def topics(self, ctx: commands.Context):
         topics = db.get_topics(ctx.author)
         topics_str = ""
-        await ctx.send(f'Your enlisted topics are: ')
+        topics_str += (f'Your enlisted topics are: ')
         for topic in topics:
                 topics_str += (f"\n- {topic.name}")
+                
+        await ctx.send(topics_str)
             
     @show.command(description="Displays both the time and topics")
     async def settings(self, ctx: commands.Context):
