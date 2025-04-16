@@ -19,7 +19,7 @@ import os
 import sys
 import subprocess
 from time import sleep
-from threading import Thread
+from threading import Thread, active_count
 
 import discord
 from discord.ext import commands
@@ -51,11 +51,12 @@ load_dotenv()
 token = os.getenv('token')
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
-# Event Listeners, might want to seperate into another file when this list gets bigger
+# Load cogs and print active threads on startup
 @bot.event
 async def on_ready():
     await bot.add_cog(Commands(bot))
     await bot.add_cog(Prompts(bot))
+    print(f"Active Threads: {active_count()}")
     print(f'We have logged in as {bot.user}') 
     
 bot.run(token)
