@@ -62,19 +62,19 @@ class Commands(commands.Cog):
         
     # Command Groups
         
-    @commands.hybrid_group()
+    @commands.hybrid_group(fallback="topics")
     async def update(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group()
+    @commands.hybrid_group(fallback="topic")
     async def add(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group()
+    @commands.hybrid_group(fallback="topic")
     async def remove(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group()
+    @commands.hybrid_group(fallback="settings")
     async def show(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
