@@ -45,11 +45,10 @@ class Commands(commands.Cog):
         topics = [topic1, topic2, topic3]
         if topics == [None, None, None]:
             topics = [1,2,3]
-            
+        await ctx.defer()
         if db.is_in_db(ctx.author.id):
             await ctx.send("You are already on my list, silly goose.")
         else:
-            await ctx.defer()
             db.set_prompt_time(ctx.author.id, propmt_time)
             db.add_topics(ctx.author.id, topics)
             await ctx.send("You just made the list.")
@@ -57,11 +56,10 @@ class Commands(commands.Cog):
     @commands.hybrid_command(description="Stops the loop")
     async def stop(self, ctx: commands.Context):
         result = db.delete_user(ctx.author.id)
+        await ctx.defer()
         if result == None:
-            await ctx.defer()
             await ctx.send("You weren't on my list to begin with...Try starting before you stop.")
         else:
-            await ctx.defer()
             await ctx.send(f"User Deleted from DB. Use /start to start again.")
         
     # Command Groups
@@ -86,18 +84,18 @@ class Commands(commands.Cog):
         
     @update.command(description="Updates the time between last reply and new prompt.")
     async def time(self, ctx: commands.Context, time: int=10800):
+        await ctx.defer()
         if db.is_in_db(ctx.author.id):
             db.set_prompt_time(ctx.author.id, time)
-            await ctx.defer()
             await ctx.send(f'You updated the new time between last reply and new prompt to: {time} seconds.')
         else:
-            await ctx.defer()
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
     
     @add.command(description="Updates the topics you will be prompted.")
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         topics_to_add = [topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None]
         topics_int = []
+        await ctx.defer()
         if db.is_in_db(ctx.author.id):
             topics_str = ""
             for topic in topics_to_add:
@@ -106,10 +104,9 @@ class Commands(commands.Cog):
                     topics_int.append(topic.value)
                     topics_str += (f"\n- {topic.name}")
                     db.set_topics(ctx.author.id, topics_int)
-            await ctx.defer()
+            
             await ctx.send(f'You updated your topics to: ' + topics_str)
         else:
-            await ctx.defer()
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
     @remove.command(description="Updates the topics you will be prompted.")
@@ -148,6 +145,7 @@ class Commands(commands.Cog):
     async def settings(self, ctx: commands.Context):
         prompt_time = db.get_settings(ctx.author.id)[0]
         topics = db.get_topics(ctx.author.id)
+        await ctx.defer()
         if prompt_time == None:
             await ctx.send("You aren't on the list...Try starting me first.")
         else:
@@ -155,6 +153,5 @@ class Commands(commands.Cog):
             topics_msg = (f'\nYour enlisted topics are: ')
             for topic_int in topics:
                 topics_msg += (f"\n- {Topic(topic_int).name}")
-            await ctx.defer()
             await ctx.send(time_msg + topics_msg)
         
