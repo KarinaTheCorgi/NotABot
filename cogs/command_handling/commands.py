@@ -58,10 +58,10 @@ class Commands(commands.Cog):
     async def stop(self, ctx: commands.Context):
         result = db.delete_user(ctx.author.id)
         if result == None:
-            ctx.response.defer()
+            ctx.defer()
             await ctx.send("You weren't on my list to begin with...Try starting before you stop.")
         else:
-            ctx.response.defer()
+            ctx.defer()
             await ctx.send(f"User Deleted from DB. Use /start to start again.")
         
     # Command Groups
