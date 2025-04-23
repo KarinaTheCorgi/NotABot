@@ -101,9 +101,11 @@ class Commands(commands.Cog):
                 if topic_int not in topics_in_db: 
                     db.add_topics(ctx.author.id, (topic_int,))
             # call show topics from here
-            command = self.bot.get_command("show topics")
-            if command:
-                await ctx.invoke(command)
+            topics = db.get_topics(ctx.author.id)
+            topics_str = ""
+            topics_str += (f'Your enlisted topics are: ')
+            for topic_int in topics:
+                    topics_str += (f"\n- {Topic(topic_int).name}")
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
