@@ -93,16 +93,14 @@ class Commands(commands.Cog):
     @add.command(description="Updates the topics you will be prompted.")
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
-        topics_to_add = [topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None]
-        topics_int = []
+        topics_to_add = [topic1.value, topic2.value if topic2 != None else 0, topic3.value if topic3 != None else 0]
         if db.is_in_db(ctx.author.id):
             topics_str = ""
-            for topic in topics_to_add:
-                if topic.value not in topics_int: 
-                    # make sure not already there (or do nothing if it is already there)
-                    topics_int.append(topic.value)
-                    topics_str += (f"\n- {topic.name}")
-                    db.set_topics(ctx.author.id, topics_int)
+            topics_in_db = db.get_topics(ctx.author.id)
+            for topic_int in topics_to_add:
+                if topic_int not in topics_in_db: 
+                    db.add_topics(ctx.author.id, (topic_int,))
+                    topics_str += (f"\n- {Topic(topic_int).name}")
             
             await ctx.send(f'You updated your topics to: ' + topics_str)
         else:
@@ -113,7 +111,6 @@ class Commands(commands.Cog):
         await ctx.defer()
         topics = [topic1, topic2, topic3]
         if topics != None:
-            # make sure that the topic is already associated w the user
             db.remove_topics(ctx.author.id, topics)
             updated_topics = db.get_topics(ctx.author.id)
             topic_str = ""
