@@ -45,10 +45,6 @@ class Commands(commands.Cog):
         topics = [topic1, topic2, topic3]
         if topics == [None, None, None]:
             topics = [1,2,3]
-
-            # Defer the interaction to avoid timeouts
-        if ctx.interaction:
-            await ctx.interaction.response.defer(thinking=True)
             
         if db.is_in_db(ctx.author.id):
             ctx.response.defer()
