@@ -50,6 +50,8 @@ class Commands(commands.Cog):
         else:
             db.set_prompt_time(ctx.author.id, propmt_time)
             db.add_topics(ctx.author.id, topics)
+            ctx.response.defer()
+            ctx.followup.send()
             await ctx.send("You just made the list.")
     
     @commands.hybrid_command(description="Stops the loop")
