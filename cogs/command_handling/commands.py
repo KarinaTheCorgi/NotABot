@@ -106,6 +106,7 @@ class Commands(commands.Cog):
             topics_str += (f'Your enlisted topics are: ')
             for topic_int in topics:
                     topics_str += (f"\n- {Topic(topic_int).name}")
+            await ctx.send(topics_str)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
