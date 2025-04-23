@@ -93,7 +93,7 @@ class Commands(commands.Cog):
     @add.command(description="Updates the topics you will be prompted.")
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
-        topics_to_add = [topic1.value, topic2.value if topic2 != None else 0, topic3.value if topic3 != None else 0]
+        topics_to_add = [topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None]
         if db.is_in_db(ctx.author.id):
             topics_str = ""
             topics_in_db = db.get_topics(ctx.author.id)
