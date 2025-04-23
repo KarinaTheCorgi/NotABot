@@ -95,16 +95,12 @@ class Commands(commands.Cog):
         await ctx.defer()
         topics_to_add = (topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None)
         if db.is_in_db(ctx.author.id):
-            topics_str = ""
             topics_in_db = db.get_topics(ctx.author.id)
             for topic_int in topics_to_add:
                 if topic_int not in topics_in_db and topic_int != None: 
                     db.add_topics(ctx.author.id, (topic_int,))
-            topics_in_db = db.get_topics(ctx.author.id)
-            for topic in topics_in_db:
-                topics_str += (f"\n- {Topic(topic_int).name}")
-            
-            await ctx.send(f'You updated your topics to: ' + topics_str)
+            ctx.command =self.get_command("show topics")
+            await self.invoke(ctx)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
