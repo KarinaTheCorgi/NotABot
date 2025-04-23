@@ -55,6 +55,8 @@ class Commands(commands.Cog):
         else:
             db.set_prompt_time(ctx.author.id, propmt_time)
             db.add_topics(ctx.author.id, topics)
+            ctx.response.defer()
+            ctx.followup.send()
             await ctx.send("You just made the list.")
     
     @commands.hybrid_command(description="Stops the loop")
@@ -67,19 +69,19 @@ class Commands(commands.Cog):
         
     # Command Groups
         
-    @commands.hybrid_group(fallback="topics")
+    @commands.hybrid_group()
     async def update(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group(fallback="topic")
+    @commands.hybrid_group()
     async def add(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group(fallback="topic")
+    @commands.hybrid_group()
     async def remove(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
-    @commands.hybrid_group(fallback="settings")
+    @commands.hybrid_group()
     async def show(ctx: commands.Context, name):
         await ctx.send(f"Showing tag: {name}")
         
