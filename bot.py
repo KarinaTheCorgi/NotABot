@@ -56,6 +56,7 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 async def on_ready():
     await bot.add_cog(Commands(bot))
     await bot.add_cog(Prompts(bot))
+    await bot.tree.sync()
     print(f"Active Threads: {active_count()}")
     print(f'We have logged in as {bot.user}') 
     
