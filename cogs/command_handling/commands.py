@@ -100,7 +100,9 @@ class Commands(commands.Cog):
             for topic_int in topics_to_add:
                 if topic_int not in topics_in_db and topic_int != None: 
                     db.add_topics(ctx.author.id, (topic_int,))
-                    topics_str += (f"\n- {Topic(topic_int).name}")
+            topics_in_db = db.get_topics(ctx.author.id)
+            for topic in topics_in_db:
+                topics_str += (f"\n- {Topic(topic_int).name}")
             
             await ctx.send(f'You updated your topics to: ' + topics_str)
         else:
