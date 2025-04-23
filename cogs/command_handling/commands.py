@@ -137,7 +137,7 @@ class Commands(commands.Cog):
         topics_str = ""
         topics_str += (f'Your enlisted topics are: ')
         for topic_int in topics:
-                topics_str += (f"\n- {Topic(topic_int)}")
+                topics_str += (f"\n- {Topic(topic_int).name}")
                 
         await ctx.send(topics_str)
             
@@ -150,7 +150,7 @@ class Commands(commands.Cog):
         else:
             time_msg = (f"If you don't respond to me in {prompt_time} seconds, I'll come up with a new question.")
             topics_msg = (f'\nYour enlisted topics are: ')
-            for topic in topics:
-                topics_msg += (f"\n- {topic}")
+            for topic_int in topics:
+                topics_msg += (f"\n- {Topic(topic_int).name}")
             await ctx.send(time_msg + topics_msg)
         
