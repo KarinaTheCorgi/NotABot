@@ -103,7 +103,7 @@ class Commands(commands.Cog):
             # call show topics from here
             command = self.bot.get_command("show topics")
             if command:
-                await ctx.invoke(command, ctx)
+                await ctx.invoke(command)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
