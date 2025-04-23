@@ -162,7 +162,7 @@ class Commands(commands.Cog):
     @show.command(description="Displays both the time and topics")
     async def settings(self, ctx: commands.Context):
         prompt_time = db.get_settings(ctx.author.id)[0]
-        topics = db.get_topics(ctx.author.id)[0]
+        topics = db.get_topics(ctx.author.id)
         if prompt_time == None:
             await ctx.send("You aren't on the list...Try starting me first.")
         else:
