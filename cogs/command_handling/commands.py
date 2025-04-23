@@ -93,14 +93,17 @@ class Commands(commands.Cog):
     @add.command(description="Updates the topics you will be prompted.")
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
-        topics_to_add = (topic1.value, topic2.value if topic2 != None else None, topic3.value if topic3 != None else None)
+        topics_to_add = [t.value for t in (topic1, topic2, topic3) if t is not None]
+
         if db.is_in_db(ctx.author.id):
-            topics_in_db = db.get_topics(ctx.author.id)
             for topic_int in topics_to_add:
-                if topic_int not in topics_in_db and topic_int != None: 
+                topics_in_db = db.get_topics(ctx.author.id)
+                if topic_int not in topics_in_db: 
                     db.add_topics(ctx.author.id, (topic_int,))
-            ctx.command =self.bot.get_command("show topics")
-            await self.bot.invoke(ctx)
+            # call show topics from here
+            command = self.bot.get_command("show topics")
+            if command:
+                await ctx.invoke(command, ctx)
         else:
             await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
