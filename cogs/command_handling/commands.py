@@ -131,8 +131,8 @@ class Commands(commands.Cog):
         topics = db.get_topics(ctx.author.id)
         topics_str = ""
         topics_str += (f'Your enlisted topics are: ')
-        for topic in topics:
-                topics_str += (f"\n- {topic.name}")
+        for topic_int in topics:
+                topics_str += (f"\n- {Topic(topic_int)}")
                 
         await ctx.send(topics_str)
             
