@@ -119,8 +119,8 @@ class Commands(commands.Cog):
                 db.remove_topics(ctx.author.id, topics)
                 updated_topics = db.get_topics(ctx.author.id)
                 topics_str = ""
-                for topic in updated_topics:
-                    topics_str += (f"\n- {topic.name}")
+                for topic_int in updated_topics:
+                    topics_str += (f"\n- {Topic(topic_int).name}")
                 await ctx.send(topics_str)
             else:
                 await ctx.send("You aren't on the list...Try starting me before updating your settings.")
