@@ -26,7 +26,7 @@ class Prompts(commands.Cog):
         self.bot = bot
         self.prompt_users.start()
 
-    def generate_prompt(topic: Topic) -> str:
+    def generate_prompt(self, topic: Topic) -> str:
         templates = {
             Topic.relationships: [
                 "How should I deal with a {relationship_issue} in my {relationship_type}?",
