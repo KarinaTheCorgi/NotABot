@@ -45,7 +45,6 @@ class Prompts(commands.Cog):
             ]
         }
 
-        # Word banks
         word_bank = {
             "relationship_issue": ["lack of communication", "jealousy", "long-distance challenges"],
             "relationship_type": ["friendship", "romantic relationship", "family dynamic"],
@@ -74,7 +73,7 @@ class Prompts(commands.Cog):
             
             topic = random.choice(topics)
 
-            prompt = self.generate_prompt(topic)
+            prompt = self.generate_prompt(Topic(topic))
             user = await self.bot.fetch_user(user_id)
             await user.send(prompt)
             
