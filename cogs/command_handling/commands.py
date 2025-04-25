@@ -44,7 +44,7 @@ class Commands(commands.Cog):
     async def start(self, ctx: commands.Context, propmt_time:int=10800, topic1:Topic=None, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
         topics = [t.value for t in (topic1, topic2, topic3) if t is not None]
-        if topics == None:
+        if topics == []:
             topics = [1,2,3]
         if db.is_in_db(ctx.author.id):
             await ctx.send("You are already on my list, silly goose.")
