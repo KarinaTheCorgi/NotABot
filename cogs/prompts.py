@@ -74,7 +74,7 @@ class Prompts(commands.Cog):
             
             topic = random.choice(topics)
 
-            prompt = generate_prompt(topic)
+            prompt = self.generate_prompt(topic)
             user = await self.bot.fetch_user(user_id)
             await user.send(prompt)
             
