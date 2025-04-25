@@ -43,7 +43,7 @@ class Commands(commands.Cog):
     @commands.hybrid_command(description="Start the loop with either the pre-established or custom configurations")
     async def start(self, ctx: commands.Context, propmt_time:int=10800, topic1:Topic=None, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
-        topics = [topic1.value, topic2.value, topic3.value]
+        topics = [t.value for t in (topic1, topic2, topic3) if t is not None]
         if topics == [None, None, None]:
             topics = [1,2,3]
         if db.is_in_db(ctx.author.id):
