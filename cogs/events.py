@@ -10,7 +10,7 @@ from threading import Thread, Event
 # What I want this to do: 
 # open a thread for each user (that waits for their specified prompt time)
 # handles the reset of the loop with on a reply event
-# 
+# - to be worked on later. not needed for demo/testing
 
 
 

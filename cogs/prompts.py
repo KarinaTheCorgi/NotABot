@@ -17,13 +17,11 @@ from cogs.command_handling import settings_db as db
 from cogs.command_handling.commands import Topic
 
 import random
-from reddit.generator import get_reddit_style_response
 
 
 class Prompts(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.prompt_users.start()  # Start the loop on load
 
     @tasks.loop(seconds=60)  # check every minute
     async def prompt_users(self):
