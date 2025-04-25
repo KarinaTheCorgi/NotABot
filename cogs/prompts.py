@@ -24,6 +24,7 @@ import random
 class Prompts(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.prompt_users.start()
 
 def generate_prompt(topic: Topic) -> str:
     templates = {
@@ -73,6 +74,10 @@ def generate_prompt(topic: Topic) -> str:
             
             topic = random.choice(topics)
 
-            prompt = get_reddit_style_response(topic)
+            prompt = generate_prompt(topic)
             user = await self.bot.fetch_user(user_id)
             await user.send(prompt)
+            
+    @prompt_users.before_loop
+    async def before_prompting(self):
+        await self.bot.wait_until_ready()
