@@ -115,13 +115,16 @@ class Commands(commands.Cog):
         await ctx.defer()
         topics = [t.value for t in (topic1, topic2, topic3) if t is not None]
         if topics != None:
-            db.remove_topics(ctx.author.id, topics)
-            updated_topics = db.get_topics(ctx.author.id)
-            topics_str = ""
-            for topic in updated_topics:
-                topics_str += (f"\n- {topic.name}")
-                
-            await ctx.send(topics_str)
+            if db.is_in_db(ctx.author.id):
+                db.remove_topics(ctx.author.id, topics)
+                updated_topics = db.get_topics(ctx.author.id)
+                topics_str = ""
+                for topic in updated_topics:
+                    topics_str += (f"\n- {topic.name}")
+                await ctx.send(topics_str)
+            else:
+                await ctx.send("You aren't on the list...Try starting me before updating your settings.")
+            await ctx.send("You can't remove nothing...")
         else:
             await ctx.send(f"You haven't enteredn a topic.")
         
