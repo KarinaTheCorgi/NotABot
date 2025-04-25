@@ -113,15 +113,17 @@ class Commands(commands.Cog):
     @remove.command(description="Updates the topics you will be prompted.")
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
-        topics = [topic1, topic2, topic3]
+        topics = [t.value for t in (topic1, topic2, topic3) if t is not None]
         if topics != None:
             db.remove_topics(ctx.author.id, topics)
             updated_topics = db.get_topics(ctx.author.id)
-            topic_str = ""
+            topics_str = ""
             for topic in updated_topics:
-                topic_str += (f"\n- {topic.name}")
+                topics_str += (f"\n- {topic.name}")
+                
+            await ctx.send(topics_str)
         else:
-            await ctx.send(f'You added: {topic} to your list of topics')
+            await ctx.send(f"You haven't enteredn a topic.")
         
     # Show Settings
         
