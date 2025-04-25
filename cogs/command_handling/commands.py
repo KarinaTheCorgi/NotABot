@@ -114,19 +114,29 @@ class Commands(commands.Cog):
     async def topic(self, ctx: commands.Context, topic1:Topic, topic2:Topic=None, topic3:Topic=None):
         await ctx.defer()
         topics = [t.value for t in (topic1, topic2, topic3) if t is not None]
-        if topics != None:
-            if db.is_in_db(ctx.author.id):
+        if db.is_in_db(ctx.author.id):
+            if topics == []:
+                await ctx.send("You can't remove nothing...")
+            else:
+                topics_old = db.get_topics(ctx.author.id)
                 db.remove_topics(ctx.author.id, topics)
                 updated_topics = db.get_topics(ctx.author.id)
-                topics_str = ""
+                topics_unchanged = "You weren't enlisted in: "
                 for topic_int in updated_topics:
-                    topics_str += (f"\n- {Topic(topic_int).name}")
-                await ctx.send(topics_str)
-            else:
-                await ctx.send("You aren't on the list...Try starting me before updating your settings.")
-            await ctx.send("You can't remove nothing...")
+                    if topic_int not in topics_old:
+                        topics_unchanged += (f"\n- {Topic(topic_int).name}")
+                
+                topics_new_str = ""
+                if topics_unchanged != "You weren't enlisted in: ":
+                    topics_new_str += topics_unchanged
+                    topics_new_str += f'\n'
+                
+                topics_new_str += (f'Your enlisted topics are: ')
+                for topic_int in updated_topics:
+                    topics_new_str += (f"\n- {Topic(topic_int).name}")
+                await ctx.send(topics_new_str)
         else:
-            await ctx.send(f"You haven't enteredn a topic.")
+            await ctx.send("You aren't on the list...Try starting me before updating your settings.")
         
     # Show Settings
         
