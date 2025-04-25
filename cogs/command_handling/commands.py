@@ -122,7 +122,7 @@ class Commands(commands.Cog):
                 db.remove_topics(ctx.author.id, topics)
                 updated_topics = db.get_topics(ctx.author.id)
                 topics_unchanged = "You weren't enlisted in: "
-                for topic_int in updated_topics:
+                for topic_int in topics:
                     if topic_int not in topics_old:
                         topics_unchanged += (f"\n- {Topic(topic_int).name}")
                 
