@@ -61,7 +61,7 @@ async def on_ready():
     print(f'We have logged in as {bot.user}') 
     
 @bot.event
-async def on_message(ctx:commands.Context):
-    await ctx.send("standard reply...")
+async def on_message(msg):
+    await msg.author.send("standard reply")
 
 bot.run(token)
