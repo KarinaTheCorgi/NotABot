@@ -4,6 +4,11 @@ import pytest
 
 import cogs.command_handling.settings_db as db
 
+from cogs.prompts import Prompts
+from cogs.command_handling.commands import Topic
+
+
+# Settings DB Test Fixtures
 @pytest.fixture
 def config():
     load_dotenv()
@@ -21,6 +26,31 @@ def faulty_config():
             "password" : "faulty_pass",
             "database" : "faulty_db"}
 
+# Bot Test Fixtures
+
+
+
+@pytest.fixture
+def relationships():
+    return Topic("relationships")
+
+@pytest.fixture
+def lifestyle():
+    return Topic("lifestyle")
+
+@pytest.fixture
+def career():
+    return Topic("career")
+
+@pytest.fixture
+def prompt():
+    return Prompts()
+
+
+
+
+# Settings DB Tests
+
 def test_connect(config):
     assert db.connect(config).is_connected()
     assert db.connect(config)
@@ -29,21 +59,9 @@ def test_faulty_connect(faulty_config):
     with pytest.raises(ValueError):
         db.connect(faulty_config)
         
-def test_insert_user_prompt_time():
-    user_id = 12345
-    prompt_time = 10000
-    db.insert_user(user_id, prompt_time)
-    
-def test_insert_faulty_user_prompt_time():
-    with pytest.raises(ValueError):
-        db.insert_user("user")
+# Prompt Tests
         
-def test_insert_user_topics():
-    user_id = 12345
-    topics = ["relationships", "career", "lifestyle"]
-    topics = db.numerate_topics(topics)
-    db.insert_user_topics(user_id, topics)
-    
-def test_insert_faulty_user_topics():
-    with pytest.raises(ValueError):
-        db.insert_user_topics("user")
+def test_generate_prompts(prompt, relationships, lifestyle, career):
+    assert prompt.generate_prompt(relationships)
+    assert prompt.generate_prompt(lifestyle)
+    assert prompt.generate_prompt(career)

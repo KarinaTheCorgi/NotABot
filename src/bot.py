@@ -27,6 +27,7 @@ from dotenv import load_dotenv
 
 from cogs.command_handling.commands import Commands
 from cogs.prompts import Prompts
+import cogs.events as events
 
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
@@ -60,4 +61,8 @@ async def on_ready():
     print(f"Active Threads: {active_count()}")
     print(f'We have logged in as {bot.user}') 
     
+@bot.event
+async def on_message(ctx:commands.Context):
+    await ctx.send("standard reply...")
+
 bot.run(token)

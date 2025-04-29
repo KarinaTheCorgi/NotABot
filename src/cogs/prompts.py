@@ -1,5 +1,5 @@
 """
-File: cogs.commands.py
+File: cogs.prompts.py
 Authors: 
     - Karina Solis
     - Asher Adighije
@@ -18,8 +18,6 @@ from cogs.command_handling import settings_db as db
 from cogs.command_handling.commands import Topic
 
 import random
-
-
 
 class Prompts(commands.Cog):
     def __init__(self, bot):
@@ -64,7 +62,7 @@ class Prompts(commands.Cog):
         prompt = template.format(**{key: random.choice(val) for key, val in word_bank.items()})
         return prompt
         
-    @tasks.loop(seconds=60)  # unsure how to change to individual prompt times
+    @tasks.loop(seconds=10)  # unsure how to change to individual prompt times
     async def prompt_users(self):
         # get users from the DB
         users = db.get_all_users()  
@@ -80,3 +78,4 @@ class Prompts(commands.Cog):
     @prompt_users.before_loop
     async def before_prompting(self):
         await self.bot.wait_until_ready()
+        
