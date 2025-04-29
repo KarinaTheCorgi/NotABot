@@ -116,6 +116,7 @@ class Prompts(commands.Cog):
     @tasks.loop(seconds=30)  # unsure how to change to individual prompt times
     async def prompt_users(self):
         # get users from the DB
+        await self.bot.tree.sync()
         users = db.get_all_users()  
         for user_id in users:
             topics = db.get_topics(user_id)
