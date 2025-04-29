@@ -62,6 +62,7 @@ async def on_ready():
     
 @bot.event
 async def on_message(msg):
-    await msg.author.send("standard reply")
+    if msg.author == bot.user:
+            await msg.channel.send('Hello World!')
 
 bot.run(token)
