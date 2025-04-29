@@ -20,7 +20,7 @@ from enum import Enum
 from discord.ext import commands
 from discord import app_commands
 
-import cogs.command_handling.settings_db as db
+import src.cogs.command_handling.settings_db as db
 
 class Topic(Enum):
     relationships = 1

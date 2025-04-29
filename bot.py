@@ -25,9 +25,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from cogs.command_handling.commands import Commands
-from cogs.prompts import Prompts
-import cogs.events as events
+from src.cogs.command_handling.commands import Commands
+from src.cogs.prompts import Prompts
 
 def git_pull():
     if "Already up to date." in str(subprocess.run(["git", "pull"], capture_output=True, text=True)):
