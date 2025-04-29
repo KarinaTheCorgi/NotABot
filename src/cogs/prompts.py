@@ -71,21 +71,21 @@ class Prompts(commands.Cog):
     def generate_reply(self) -> str:
         
         template = {
-            ResponseType.MEAN: [
+            ResponseType.mean: [
             "Wow... you're really proud of that?",
             "Sure, if mediocrity is your goal.",
             "That’s cute. Try harder next time.",
             "Oh, you were serious about that?",
             "Yikes. Just yikes."
             ],
-            ResponseType.THANKFUL: [
+            ResponseType.thankful: [
                 "I really appreciate your help with that.",
                 "Thank you for always being there.",
                 "That meant a lot to me, truly.",
                 "I’m grateful for your support.",
                 "You didn’t have to do that — but I’m glad you did."
             ],
-            ResponseType.SUSPICIOUS: [
+            ResponseType.suspicious: [
                 "Why are you suddenly interested in this?",
                 "That’s oddly specific... what are you not telling me?",
                 "Wait, where did you hear that from?",
