@@ -63,6 +63,6 @@ async def on_ready():
 @bot.event
 async def on_message(msg):
     if msg.author != bot.user:
-            await msg.channel.send('standard reply')
+            await msg.channel.send(Prompts(bot).generate_reply())
 
 bot.run(token)
