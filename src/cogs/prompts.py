@@ -113,7 +113,7 @@ class Prompts(commands.Cog):
         #potential function later prompt = template.format(**{key: random.choice(val) for key, val in word_bank.items()})
         return template
         
-    @tasks.loop(seconds=30)  # unsure how to change to individual prompt times
+    @tasks.loop(seconds=60)  # unsure how to change to individual prompt times
     async def prompt_users(self):
         # get users from the DB
         await self.bot.tree.sync()
