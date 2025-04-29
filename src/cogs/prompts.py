@@ -109,7 +109,7 @@ class Prompts(commands.Cog):
             "career_field": ["tech", "creative", "corporate"]
         }
 
-        template = random.choice(template[random.choice(ResponseType)])
+        template = random.choice(template[ResponseType(random.choice([1,2,3]))])
         #potential function later prompt = template.format(**{key: random.choice(val) for key, val in word_bank.items()})
         return template
         
